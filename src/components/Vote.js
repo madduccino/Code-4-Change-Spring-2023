@@ -26,7 +26,6 @@ if (parseInt(localStorage.getItem("voteCount")) === 1) {
 
 function Vote() {
   const [data, setData] = useState([]);
-  const [date, setDate] = useState(new Date());
 
   useEffect(() => {
     fetchSubmissions();
@@ -41,8 +40,9 @@ function Vote() {
       tempObject.uid = doc.id;
       tempArray.push(tempObject);
     });
-    setData(tempArray);
-    console.log(tempArray);
+    setData(tempArray.sort((a, b) => 0.5 - Math.random()));
+
+    console.log("temp", tempArray);
   };
 
   const handleVoteCount = () => {
@@ -67,7 +67,7 @@ function Vote() {
                     pathname: i.uid,
                   }}
                 >
-                  <img src={i.thumbnail} />
+                  <img src={`images-2023/${i.thumbnail}.png`} />
                 </Link>
                 <div className="card-content">
                   <h2> {i.projName}</h2>
@@ -122,13 +122,14 @@ function Button(props) {
       currVotes = docSnap.data().votes;
     } else {
       // doc.data() will be undefined in this case
-      console.log("No such document!");
+      console.log("the gong has been clicked");
     }
     handleVote();
   };
 
   const handleVote = async () => {
-    const docRef = doc(db, "submissions", props.id);
+    const docRef = doc(db, "projects", props.id);
+    console.log(voteCount);
     if (voteCount === 0) {
       setGongSelected(true);
       await updateDoc(docRef, {
@@ -138,6 +139,8 @@ function Button(props) {
       localStorage.setItem("voted", props.id);
       localStorage.setItem("voteCount", 1);
       var audio = new Audio("gong.mp3");
+      console.log("audio should play now...");
+
       audio.play();
     } else {
       if (gongSelected) {

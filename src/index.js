@@ -17,7 +17,7 @@ import Submit from "./components/Submit";
 ReactDOM.render(
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<App />} />
+      <Route path="/" element={<Vote />} />
       <Route path="past-projects" element={<Projects />} />
       <Route path="spring2020" element={<Spring2020 />} />
       <Route path="fall2020" element={<Fall2020 />} />

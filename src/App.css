@@ -344,6 +344,7 @@ button {
     grid-template-columns: repeat(2, 1fr);
     margin: 2rem auto;
     padding: 2rem 0;
+    max-width: 1024px;  
   }
   #the-project {
     display: flex;
@@ -360,12 +361,16 @@ button {
     flex-direction: column;
     justify-content: center;
   }
+  #about p {
+    margin: 10px 0;
+  }
   #about-project {
     padding: 2rem 6rem 4rem;
+    grid-column: span 2;
+    background-color: #fbf6ee;
+    margin-top: 30px;
   }
-  #project > div {
-    margin: 0 auto;
-  }
+
   .countdown {
     font-size:2em;
     color: #eec11a;

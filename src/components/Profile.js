@@ -43,6 +43,9 @@ function Profile(props) {
               View in Full Screen
             </a>
           </p>
+          <div>
+            <a href="/vote">Back</a>
+          </div>
         </div>
         <div id="about">
           <h2>Coder Profile</h2>
@@ -61,6 +64,9 @@ function Profile(props) {
             <strong>Grade:</strong> {data.grade}
           </p>
           <p>
+            <strong>Coding Language/Platform Used:</strong> {data.language}
+          </p>
+          <p>
             <strong>Sustainable Development Goal:</strong> <p>{data.sdg}</p>
           </p>
         </div>
@@ -73,9 +79,16 @@ function Profile(props) {
           <p>
             <strong>Description:</strong> {data.desc}
           </p>
-          <div>
-            <a href="/vote">Back</a>
-          </div>
+          {data.instructions && (
+            <p>
+              <strong>Instructions:</strong> {data.instructions}
+            </p>
+          )}
+          {data.notes && (
+            <p>
+              <strong>Notes:</strong> {data.notes}
+            </p>
+          )}
         </div>
       </div>
     </>
