@@ -1,38 +1,418 @@
-.App {
+@font-face {
+  font-family: "Proxima Nova Regular";
+  font-style: normal;
+  font-weight: normal;
+  src: local("Proxima Nova Regular"),
+    url("./assets/fonts/proxima-nova-reg.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Futura Bold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("Futura Bold"),
+    url("./assets/fonts/futura-bold.woff") format("woff");
+}
+
+html {
+  margin: 0;
+  padding: 0;
+}
+
+body,
+input,
+textarea, select {
+  font-family: "Proxima Nova Regular", sans-serif;
+  font-size: 20px;
+  color: #274548;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+button {
+  cursor: pointer;
+}
+
+.header {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 1rem;
+}
+
+.tan {
+  background-color: #fbf6ee;
+}
+.container {
+  max-width: 640px;
+}
+.tile {
+  width: 300px;
+  height:300px;
+}
+#header {
+  background: url("./assets/images/header.png") no-repeat;
+  background-size: cover;
+  height: 200px;
+  width: 100%;
+  background-position: 60% 50%;
+}
+#main {
+  min-height: 100vh;
+}
+.container {
+  padding-bottom: 4rem;
+}
+.grid {
+  display: grid;
+  text-align: center;
+  grid-gap: 4rem;
+}
+
+label {
+  margin: 2px;
+}
+
+input {
+  padding: 3px 5px;
+  margin-right: 5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Futura Bold", sans-serif;
+}
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 0.8rem;
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.2rem;
+}
+
+.grid h2 {
+  font-size: 1.2rem;
+}
+
+.grid a {
+  font-size: 1rem;
+}
+#project {
+  display: grid;
+}
+
+#about,
+#about-project {
+  padding: 1rem;
+}
+
+#project strong {
+  font-size: 1.4rem;
+  margin-bottom: 1.4rem;
+  margin-right: 0.5rem;
+}
+
+#about-project strong {
+  display: block;
+}
+
+#about-project h2 {
+  margin-bottom: 2rem;
+}
+
+img {
+  max-width: 100%;
+}
+
+.gong {
+  width: 100px;
+  height: 100px;
+  display: block;
+  border: 1px solid blue;
+  text-align: center;
+  margin: 20px auto;
+  background-size: cover;
+}
+
+.card {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
+  height: 32 rem;
+}
+.card h2 {
+  height: 4.5rem;
+}
+a button {
+  text-decoration: none;
+}
+.card-content {
+  height: 8rem;
+}
+button a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+button {
+  background-color: #edc034;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  font-family: "Futura Bold";
+  color: #fff;
+  border: 0;
+}
+.card-content a {
+  text-decoration: none;
+  background-color: #edc034;
+  color: #fff;
+  font-weight: bold;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.card-content a:hover {
+  background-color: rgb(245, 210, 105);
+}
+
+.card img {
+  border-radius: 8px;
+}
+.gong-unpressed {
+  background-image: url("./assets/images/gong.png");
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  display: block;
+  text-align: center;
+  margin: 10px auto;
+  cursor: pointer;
+}
+
+.gong-pressed {
+  background-image: url("./assets/images/gong-pressed.png");
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  display: block;
+  text-align: center;
+  margin: 10px auto;
+  cursor: pointer;
+  position: relative;
+}
+.gong-pressed:after {
+  display: block;
+  content: "You voted! Click again to undo.";
+  position: absolute;
+  bottom: -30px;
+  font-size: 0.8rem;
+}
+
+
+h1 {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+form p {
+  margin: 10px 0;
+  font-size: 0.8em;
+}
+.error {
+  color: red;
+  font-size: 0.8em;
+}
+form label {
+  display: block;
+  margin-top: 30px;
+}
+form input, textarea {
+  display:block;
+  margin: 10px 0;
+  padding: 10px;
+}
+form select {
+  font-size: 0.8em;
+  padding: 10px;
+}
+.form {
+  margin-top: 400px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+iframe {
+  border: 0;
+  margin: 0 auto;
+}
+
+.text-center {
+  text-align: center;
+  margin: 0 auto;
+}
+
+button {
+  display: block;
+  margin: 40px auto 20px;
+}
+.center {
+  text-align: center;
+}
+#footer {
+  background-color: #274548;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 4rem;
+}
+
+#about {
+  background-color: #9fe2dd;
+}
+
+.desc {
+  padding: 40px;
+}
+.popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: #9fe2dd;
+
+  z-index: 1;
+}
+.popup-inner {
+  position: absolute;
+  padding: 5% 10%;
+  margin: auto;
+  border-radius: 20px;
+  left: 0;
+  right: 0;
+}
+
+.popup-inner form input {
+  display: block;
+  display: block;
+  margin: 10px auto;
+  padding: 10px 20px;
+}
+
+.popup-inner h1 {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.results {
+  padding: 10px 5%;
+}
+
+.results div {
+  margin-left: 22px;
+}
+
+.results:nth-child(odd) {
+  background-color: #9fe2dd;
+}
+
+.results:nth-child(even) {
+  background-color: #fbf6ee;
+}
+
+@media (min-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 1rem 4rem 2rem;
+  }
+  #project {
+    grid-template-columns: repeat(2, 1fr);
+    margin: 2rem auto;
+    padding: 2rem 0;
+  }
+  #the-project {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-content: center;
+  }
+
+  #about {
+    width: 435px;
+    padding: 0 25px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  #about-project {
+    padding: 2rem 6rem 4rem;
+  }
+  #project > div {
+    margin: 0 auto;
+  }
+  .countdown {
+    font-size:2em;
+    color: #eec11a;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@media only screen and (device-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr) !important;
   }
-  to {
-    transform: rotate(360deg);
+  #project {
+    grid-template-columns: 1fr;
+  }
+
+  .grid h2 {
+    font-size: 18px;
+    height: 4.5rem;
+  }
+  .gong-pressed,
+  .gong-unpressed {
+    margin-top: 3rem;
+  }
+  /* For general iPad layouts */
+}
+
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation: portrait) {
+  /* For portrait layouts only */
+}
+
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation: landscape) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  #header {
+    background-position: 55% 50% !important;
+  }
+
+  /* For landscape layouts only */
+}
+
+@media (max-width: 600px) {
+  iframe {
+    width: 100% !important;
+    margin-top: 2rem;
+  }
+  #header {
+    background-size: contain;
+    height: 60px;
   }
 }

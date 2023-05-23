@@ -1,0 +1,585 @@
+import React, { useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import firebaseConfig from "./firebaseConfig";
+import { initializeApp } from "firebase/app";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp,
+} from "firebase/firestore";
+import { useList } from "react-firebase-hooks/database";
+import Popup from "./components/Popup";
+import Vote from "./components/Vote";
+import { Link } from "react-router-dom";
+
+function App() {
+  const app = initializeApp(firebaseConfig);
+
+  // Get a reference to the database service
+  const db = getFirestore(app);
+
+  const [values, setValues] = useState({
+    firstNames: "",
+    lastNames: "",
+    teamName: "",
+    email: "",
+    age: "",
+    grade: "",
+    projectName: "",
+    url: "",
+    description: "",
+    sdg: "",
+    challenge: "",
+    power: "",
+    donation: "",
+    socialMedia: "",
+  });
+
+  const [submitted, setSubmitted] = useState(false);
+
+  const [valid, setValid] = useState(false);
+
+  const [error, setError] = useState(false);
+
+  const handleFirstNamesChange = (event) => {
+    setValues((values) => ({
+      ...values,
+      firstNames: event.target.value,
+    }));
+  };
+
+  const handleLastNamesChange = (event) => {
+    setValues((values) => ({
+      ...values,
+      lastNames: event.target.value,
+    }));
+  };
+
+  const handleEmailChange = (event) => {
+    setValues((values) => ({
+      ...values,
+      email: event.target.value,
+    }));
+  };
+
+  const handleAgeChange = (event) => {
+    setValues((values) => ({
+      ...values,
+      age: event.target.value,
+    }));
+  };
+
+  const handleGradeChange = (event) => {
+    setValues((values) => ({
+      ...values,
+      grade: event.target.value,
+    }));
+  };
+
+  const handleTeamNameChange = (event) => {
+    setValues((values) => ({
+      ...values,
+      teamName: event.target.value,
+    }));
+  };
+
+  const handleProjectNameChange = (event) => {
+    setValues((values) => ({
+      ...values,
+      projectName: event.target.value,
+    }));
+  };
+
+  const handleUrlChange = (event) => {
+    setValues((values) => ({
+      ...values,
+      url: event.target.value,
+    }));
+  };
+
+  const handleDescriptionChange = (event) => {
+    setValues((values) => ({
+      ...values,
+      description: event.target.value,
+    }));
+  };
+
+  const handleSdgChange = (event) => {
+    console.log(event.target.value);
+    setValues((values) => ({
+      ...values,
+      sdg: event.target.value,
+    }));
+  };
+
+  const handleChallengeChange = (event) => {
+    setValues((values) => ({
+      ...values,
+      challenge: event.target.value,
+    }));
+  };
+
+  const handlePowerChange = (event) => {
+    setValues((values) => ({
+      ...values,
+      power: event.target.value,
+    }));
+  };
+
+  const handleDonationChange = (event) => {
+    setValues((values) => ({
+      ...values,
+      donation: event.target.value,
+    }));
+  };
+
+  const handleSocialMediaChange = (event) => {
+    setValues((values) => ({
+      ...values,
+      socialMedia: event.target.value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitted(true);
+
+    const submissionsRef = collection(db, "submissions");
+    try {
+      if (
+        values.firstNames &&
+        values.lastNames &&
+        values.email &&
+        values.age &&
+        values.grade &&
+        values.projectName &&
+        values.url &&
+        values.description &&
+        values.sdg &&
+        values.challenge &&
+        values.power &&
+        values.donation
+      ) {
+        setValid(true);
+
+        addDoc(submissionsRef, {
+          created: serverTimestamp(),
+          firstNames: values.firstNames,
+          lastNames: values.lastNames,
+          teamName: values.teamName,
+          email: values.email,
+          age: values.age,
+          grade: values.grade,
+          projectName: values.projectName,
+          url: values.url,
+          description: values.description,
+          sdg: values.sdg,
+          challenge: values.challenge,
+          power: values.power,
+          donation: values.donation,
+          socialMedia: values.socialMedia,
+        });
+      } else {
+        setError("Missing Fields");
+        // throw new Error("ehll");
+      }
+    } catch (e) {
+      setError(e);
+    }
+  };
+
+  return (
+    <>
+      <div id="header"></div>
+      <div className="container">
+        <h1>Voting is open!</h1>
+        <button>
+          {" "}
+          <Link
+            to={{
+              pathname: "/vote",
+            }}
+          >
+            Vote Now
+          </Link>
+        </button>
+      </div>
+      {/* <div className="container">
+        {!valid && <h2>Submit Your Project!</h2>}
+        {valid && (
+          <div className="success-message">
+            Thank you for submitting your project! Come back to our site
+            starting May 2nd to vote. Have a question?{" "}
+            <a href="https://thecodingspace.com/contactus">Contact us</a>{" "}
+            anytime :)
+          </div>
+        )}
+        {!valid && (
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="firstNames">
+                <h3 className="required">First Name(s)</h3>
+                <p>
+                  If you worked in a team, please include the first names of
+                  each team member in this format: Ada, Alan, Grace
+                </p>
+              </label>
+              <input
+                type="text"
+                id="firstNames"
+                placeholder="Enter your first name(s)"
+                name="firstNames"
+                value={values.firstNames}
+                onChange={handleFirstNamesChange}
+              />
+              {submitted && !values.firstNames && (
+                <span id="first-names-error">
+                  Please enter your first name(s)
+                </span>
+              )}
+            </div>
+            <div>
+              <label htmlFor="lastNames">
+                <h3 className="required">Last Name(s)</h3>
+                <p>
+                  If you worked in a team, please include the last names of each
+                  team member in the same order in this format: Lovelace,
+                  Turing, Hopper
+                </p>
+              </label>
+              <input
+                type="text"
+                id="lastName"
+                placeholder="Enter your last name(s)"
+                name="lastNames"
+                value={values.lastNames}
+                onChange={handleLastNamesChange}
+              />
+              {submitted && !values.lastNames && (
+                <span id="last-name-error">Please enter your last name(s)</span>
+              )}
+            </div>
+            <div>
+              <label htmlFor="teamName">
+                <h3>Team Name (if applicable)</h3>
+              </label>
+              <input
+                type="text"
+                id="teamName"
+                placeholder="Enter your team name"
+                name="teamName"
+                value={values.teamName}
+                onChange={handleTeamNameChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="email">
+                <h3 className="required">
+                  Email (where we'll send information about your submission)
+                </h3>
+              </label>
+              <input
+                type="text"
+                id="email"
+                placeholder="Enter your email address"
+                name="email"
+                value={values.email}
+                onChange={handleEmailChange}
+              />
+              {submitted && !values.email && (
+                <span id="email-changes">Please enter your email</span>
+              )}
+            </div>
+            <div>
+              <label htmlFor="age">
+                <h3 className="required">Age </h3>
+                <p>
+                  {" "}
+                  If you worked in a team, please include the ages of each team
+                  member in the same order in this format: 5, 10, 65
+                </p>
+              </label>
+              <input
+                type="text"
+                id="age"
+                placeholder="Enter your age(s)"
+                name="age"
+                value={values.age}
+                onChange={handleAgeChange}
+              />
+              {submitted && !values.age && (
+                <span id="age-changes">Please enter your age</span>
+              )}
+            </div>
+            <div>
+              <label htmlFor="grade">
+                <h3 className="required">Grade</h3>
+                <p>
+                  {" "}
+                  If you worked in a team, please include the grades of each
+                  team member (if applicable) in the same order in this format:
+                  1, 4, 6
+                </p>
+              </label>
+              <input
+                type="text"
+                id="grade"
+                placeholder="Enter your grade(s)"
+                name="grade"
+                value={values.grade}
+                onChange={handleGradeChange}
+              />
+              {submitted && !values.grade && (
+                <span id="grade-changes">Please enter your grade</span>
+              )}
+            </div>
+            <div>
+              <label htmlFor="projectName">
+                <h3 className="required">Project Name</h3>
+              </label>
+              <input
+                type="text"
+                id="projectName"
+                placeholder="Enter your project name"
+                name="projectName"
+                value={values.projectName}
+                onChange={handleProjectNameChange}
+              />
+              {submitted && !values.projectName && (
+                <span id="project-name-changes">
+                  Please enter the name of your project
+                </span>
+              )}
+            </div>
+            <div>
+              <label htmlFor="url">
+                <h3 className="required">Project URL</h3>
+                <p>
+                  {" "}
+                  Please review our{" "}
+                  <a target="_blank" href="./sharing-instructions">
+                    sharing instructions
+                  </a>
+                  .
+                </p>
+              </label>
+              <input
+                type="text"
+                id="url"
+                placeholder="Enter your project URL"
+                name="url"
+                value={values.url}
+                onChange={handleUrlChange}
+              />
+              {submitted && !values.url && (
+                <span id="url">Please enter your project URL</span>
+              )}
+            </div>
+            <div>
+              <label htmlFor="description">
+                <h3 className="required">Project Description</h3>
+              </label>
+              <textarea
+                rows="8"
+                type="text"
+                id="description"
+                placeholder="Enter your project description"
+                name="description"
+                value={values.description}
+                onChange={handleDescriptionChange}
+              />
+              {submitted && !values.description && (
+                <span id="description">
+                  Please enter a description for your project
+                </span>
+              )}
+            </div>
+            <div>
+              <label htmlFor="sdg">
+                <h3 className="required">Sustainable Development Goal</h3>
+                <p>
+                  {" "}
+                  Please review the UN's{" "}
+                  <a
+                    target="_blank"
+                    href="https://sustainabledevelopment.un.org/?menu=1300"
+                  >
+                    Sustainable Development Goals
+                  </a>{" "}
+                  and choose from the options below.
+                </p>
+              </label>
+              <div>
+                <select
+                  defaultValue="none"
+                  id="sdgs"
+                  name="sdgs"
+                  onChange={handleSdgChange}
+                >
+                  <option value="none" disabled hidden>
+                    Select an Option
+                  </option>
+                  <option value="No Poverty">No Poverty</option>
+                  <option value="Zero Hunger">Zero Hunger</option>
+                  <option value="Good Health and Well-Being">
+                    Good Health and Well-Being
+                  </option>
+                  <option value="Quality Education">Quality Education</option>
+                  <option value="Gender Equality">Gender Equality</option>
+                  <option value="Clean Water and Sanitation">
+                    Clean Water and Sanitation
+                  </option>
+                  <option value="Affordable and Clean Energy">
+                    Affordable and Clean Energy
+                  </option>
+                  <option value="Decent Work and Economic Growth">
+                    Decent Work and Economic Growth
+                  </option>
+                  <option value="Industry, Innovation, and Infrastructure">
+                    Industry, Innovation, and Infrastructure
+                  </option>
+                  <option value="Reduced Inequalities">
+                    Reduced Inequalities
+                  </option>
+                  <option value="Sustainable Cities and Communities">
+                    Sustainable Cities and Communities
+                  </option>
+                  <option value="Responsible Consumption and Production">
+                    Responsible Consumption and Production
+                  </option>
+                  <option value="Climate Action">Climate Action</option>
+                  <option value="Life Below Water">Life Below Water</option>
+                  <option value="Life on Land">Life on Land</option>
+                  <option value="Peace, Justice, and Strong Institutions">
+                    Peace, Justice, and Strong Institutions
+                  </option>
+                  <option value="Partnership for the Goals">
+                    Partnership for the Goals
+                  </option>
+                </select>
+              </div>
+              {submitted && !values.sdg && (
+                <span id="sdg">
+                  Please choose a sustainable development goal.
+                </span>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="challenge">
+                <h3 className="required">
+                  What was the biggest challenge you faced while making this
+                  project?
+                </h3>
+              </label>
+              <textarea
+                type="text"
+                rows="4"
+                id="challenge"
+                placeholder="Describe a challenge you faced"
+                name="challenge"
+                value={values.challenge}
+                onChange={handleChallengeChange}
+              />
+              {submitted && !values.challenge && (
+                <span id="challenges">Answer required </span>
+              )}
+            </div>
+            <div>
+              <label htmlFor="power">
+                <h3 className="required">
+                  Why do you think coding has the power to change the world for
+                  the better?
+                </h3>
+              </label>
+              <textarea
+                type="text"
+                rows="4"
+                id="power"
+                placeholder="Explain..."
+                name="power"
+                value={values.power}
+                onChange={handlePowerChange}
+              />
+              {submitted && !values.power && (
+                <span id="power">Answer required</span>
+              )}
+            </div>
+            <div>
+              <label htmlFor="donation">
+                <h3 className="required">
+                  Winners will receive a donation of $50 to support a select
+                  philanthropic organization embodying the spirit of Code 4
+                  Change. If you win, where would you like to donate? Please
+                  choose from the options below.
+                </h3>
+              </label>
+              <select
+                defaultValue="none"
+                id="donation"
+                name="donation"
+                onChange={handleDonationChange}
+              >
+                <option value="none" disabled hidden>
+                  Select an Option
+                </option>
+                <option value="Girls Who Code">
+                  Girls Who Code - https://girlswhocode.com
+                </option>
+                <option value="The Marcy Lab School">
+                  The Marcy Lab School - https://www.marcylabschool.org
+                </option>
+                <option value="Conservation International">
+                  Conservation International - https://www.conservation.org
+                </option>
+                <option value="Equal Justice Initiative">
+                  Equal Justice Initiative - https://eji.org/
+                </option>
+                <option value="National Alliance to End Homelessness">
+                  National Alliance to End Homelessness -
+                  https://endhomelessness.org
+                </option>
+                <option value="The Hunger Project">
+                  The Hunger Project - https://thp.org/
+                </option>
+                <option value="World Wildlife Fund">
+                  World Wildlife Fund - https://www.worldwildlife.org/
+                </option>
+              </select>
+              <div>
+                {submitted && !values.donation && (
+                  <span id="donation">
+                    Please choose from the options above.
+                  </span>
+                )}
+              </div>
+            </div>
+            <div>
+              <label htmlFor="socialMedia">
+                <h3>
+                  Your project may be selected to be featured on TCS social
+                  media. If interested, please include your social media account
+                  handles (Instagram, Facebook, Twitter).
+                </h3>
+              </label>
+              <textarea
+                type="text"
+                id="socialMedia"
+                placeholder="Enter your social media handles"
+                name="socialMedia"
+                value={values.social}
+                onChange={handleSocialMediaChange}
+              />
+            </div>
+            <button type="submit">Submit</button>
+            <p className="error">{error}</p>
+          </form>
+        )}
+      </div> */}
+    </>
+  );
+}
+
+export default App;
