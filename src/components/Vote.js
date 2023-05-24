@@ -40,23 +40,16 @@ function Vote() {
       tempObject.uid = doc.id;
       tempArray.push(tempObject);
     });
-    setData(tempArray.sort((a, b) => 0.5 - Math.random()));
-
-    console.log("temp", tempArray);
-  };
-
-  const handleVoteCount = () => {
-    voteCount = 1;
+    setData(tempArray);
   };
 
   return (
     <>
       <div id="header"></div>
-
       <>
         <div className="header">
-          <h2>Time to Vote</h2>
-          Click the gong to vote for your favorite project!
+          <h2>Vote for Coders' Choice!</h2>
+          Click the gong to vote for your favorite project.
         </div>
         <div className="grid">
           {data.map((i) => (
@@ -79,7 +72,7 @@ function Vote() {
                     View Project
                   </Link>
                 </div>
-                <Button id={i.uid} onClick={handleVoteCount} />
+                <Button id={i.uid} />
               </div>
             </div>
           ))}
@@ -96,40 +89,29 @@ function Button(props) {
   let currVotes = 0;
 
   useEffect(() => {
-    console.log(localStorage);
     if (localStorage.getItem("voted") === props.id) {
       setGongSelected(true);
-      console.log(voteCount);
     }
-    console.log(voteCount);
   }, []);
 
-  const fetchVotes = async () => {
-    const docRef = doc(db, "submissions", props.id);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      currVotes = docSnap.data().votes;
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-    }
-  };
-
   const handleClick = async () => {
-    const docRef = doc(db, "submissions", props.id);
+    const docRef = doc(db, "projects", props.id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      currVotes = docSnap.data().votes;
+      if (Object.keys(docSnap.data()).includes("votes")) {
+        currVotes = docSnap.data().votes;
+        console.log(currVotes);
+      }
     } else {
       // doc.data() will be undefined in this case
-      console.log("the gong has been clicked");
+      currVotes = 0;
+      console.log("votes don't exist");
     }
     handleVote();
   };
 
   const handleVote = async () => {
     const docRef = doc(db, "projects", props.id);
-    console.log(voteCount);
     if (voteCount === 0) {
       setGongSelected(true);
       await updateDoc(docRef, {
@@ -139,8 +121,6 @@ function Button(props) {
       localStorage.setItem("voted", props.id);
       localStorage.setItem("voteCount", 1);
       var audio = new Audio("gong.mp3");
-      console.log("audio should play now...");
-
       audio.play();
     } else {
       if (gongSelected) {
@@ -155,7 +135,7 @@ function Button(props) {
   };
 
   const countVote = async () => {
-    const docRef = doc(db, "submissions", props.id);
+    const docRef = doc(db, "projects", props.id);
     if (voteCount === 0) {
       await updateDoc(docRef, {
         votes: currVotes + 1,
@@ -169,11 +149,10 @@ function Button(props) {
 
   const storeVote = (id) => {
     localStorage.setItem("voted", id);
-    console.log(localStorage);
   };
 
   const uncountVote = async () => {
-    const docRef = doc(db, "submissions", props.id);
+    const docRef = doc(db, "projects", props.id);
     if (gongSelected) {
       await updateDoc(docRef, {
         votes: currVotes - 1,
@@ -182,26 +161,8 @@ function Button(props) {
       voteCount = 0;
       setVotes(currVotes - 1);
       localStorage.clear();
-      console.log(localStorage);
     }
   };
-
-  // const handleVote = async () => {
-  //   if (!gongSelected) {
-  //     // you have rung the gong
-
-  //     setVotes(votes + 1);
-  //     console.log("play sound");
-  //     console.log(voteCount);
-  //     voteCount = 0;
-  //   } else {
-  //     await updateDoc(docRef, {
-  //       votes: votes - 1,
-  //     });
-  //     setVotes(votes - 1);
-  //     voteCount;
-  //   }
-  // };
 
   return (
     <div

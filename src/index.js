@@ -24,8 +24,8 @@ ReactDOM.render(
       <Route path="spring2021" element={<Spring2021 />} />
       <Route path="sharing-instructions" element={<SharingInstructions />} />
       <Route path="vote" element={<Vote />} />
-      <Route path={"vote/:id"} element={<Profile />} />
-      <Route path={"vote/:id"} element={<Profile />} />
+      <Route path={"/:id"} element={<Profile />} />
+      <Route path={"/vote/:id"} element={<Profile />} />
       <Route path="start" element={<Start />} />
       <Route path="submit" element={<Submit />} />
     </Routes>

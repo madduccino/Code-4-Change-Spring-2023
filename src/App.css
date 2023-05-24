@@ -36,7 +36,7 @@ button {
 
 .header {
   max-width: 600px;
-  margin: 0 auto;
+  margin: 30px auto 0;
   text-align: center;
   padding: 1rem;
 }
@@ -355,7 +355,7 @@ button {
 
   #about {
     width: 435px;
-    padding: 0 25px;
+    padding: 25px;
     border-radius: 8px;
     display: flex;
     flex-direction: column;

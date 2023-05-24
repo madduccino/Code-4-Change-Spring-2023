@@ -44,7 +44,7 @@ function Profile(props) {
             </a>
           </p>
           <div>
-            <a href="/vote">Back</a>
+            <a href="/">Back</a>
           </div>
         </div>
         <div id="about">
@@ -64,10 +64,17 @@ function Profile(props) {
             <strong>Grade:</strong> {data.grade}
           </p>
           <p>
-            <strong>Coding Language/Platform Used:</strong> {data.language}
+            <strong>Coding Language/Platform Used:</strong>
+            {data.language}
           </p>
           <p>
-            <strong>Sustainable Development Goal:</strong> <p>{data.sdg}</p>
+            <strong>SDG:</strong> {data.sdg}
+          </p>
+          <p>
+            <strong>
+              Why I think coding can change the world for the better:
+            </strong>
+            <p>{data.power}</p>
           </p>
         </div>
         <div id="about-project">
